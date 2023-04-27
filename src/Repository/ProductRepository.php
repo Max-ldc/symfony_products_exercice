@@ -48,6 +48,15 @@ class ProductRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findAllVisible()
+    {
+        return $this
+            ->createQueryBuilder('p')
+            ->where('p.visible = 1')
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Product[] Returns an array of Product objects
     //     */
