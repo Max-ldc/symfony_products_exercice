@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Product;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -43,8 +44,12 @@ class ProductRepository extends ServiceEntityRepository
     {
         return $this
             ->createQueryBuilder('p')
-            ->where('p.discount = 1')
-            ->andWhere('p.visible = 1')
+            ->andWhere('p.discount = :discount')
+            ->andWhere('p.visible = :visible')
+            ->andWhere('p.dateCreated > :last_year')
+            ->setParameter('discount', true)
+            ->setParameter('visible', true)
+            ->setParameter('last_year', (new DateTime())->modify('-1 year'))
             ->getQuery()
             ->getResult();
     }

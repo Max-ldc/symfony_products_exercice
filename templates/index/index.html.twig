@@ -21,6 +21,9 @@
 							<div class="">&nbsp|&nbsp</div>
 							<div class="text-success fw-bold">{{ product.sellprice }}€</div>
 						</div>
+						<div class="card-subtitle my-2 text-body-secondary text-center">
+							{{ product.datecreated|date('d/m/Y') }}
+						</div>
 					</div>
 				</a>
 			{% else %}
