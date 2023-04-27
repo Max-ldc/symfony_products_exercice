@@ -33,6 +33,9 @@ class Product
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
 
+    public const TVA_RATE = 0.2;
+    public const DISCOUNT_RATE = 0.25;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -65,6 +68,15 @@ class Product
     public function getBasePrice(): ?float
     {
         return $this->basePrice;
+    }
+
+    public function getSellPrice(): ?float
+    {
+        $priceTTC = $this->basePrice*(1 + self::TVA_RATE);
+
+        return $this->isDiscount() ? 
+            round($priceTTC - ($priceTTC * self::DISCOUNT_RATE), 2) : 
+            round($priceTTC, 2);
     }
 
     public function setBasePrice(float $basePrice): self

@@ -48,7 +48,7 @@ class ProductRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findAllVisible()
+    public function findAllVisible(): array
     {
         return $this
             ->createQueryBuilder('p')
