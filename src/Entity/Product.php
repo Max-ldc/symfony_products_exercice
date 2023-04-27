@@ -70,13 +70,18 @@ class Product
         return $this->basePrice;
     }
 
+    public function getTTCPrice(): ?float
+    {
+        return round($this->basePrice * (1 + self::TVA_RATE), 2);
+    }
+
     public function getSellPrice(): ?float
     {
-        $priceTTC = $this->basePrice*(1 + self::TVA_RATE);
+        $priceTTC = $this->getTTCPrice();
 
-        return $this->isDiscount() ? 
-            round($priceTTC - ($priceTTC * self::DISCOUNT_RATE), 2) : 
-            round($priceTTC, 2);
+        return $this->isDiscount() ?
+            round($priceTTC - ($priceTTC * self::DISCOUNT_RATE), 2) :
+            $priceTTC;
     }
 
     public function setBasePrice(float $basePrice): self
