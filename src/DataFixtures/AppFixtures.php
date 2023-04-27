@@ -33,9 +33,10 @@ class AppFixtures extends Fixture
                 ->setName($faker->realText(15))
                 ->setVisible($faker->boolean(80))
                 ->setDescription($faker->realTextBetween(50, 150))
-                ->setCategory($faker->randomElement($categories))
                 ->setBasePrice($faker->randomFloat(2, 1, 1000))
-                ->setDiscount($faker->boolean(22));
+                ->setDiscount($faker->boolean(22))
+                ->setDateCreated($faker->dateTimeBetween('-3 years'))
+                ->setCategory($faker->randomElement($categories));
 
             $manager->persist($product);
         }

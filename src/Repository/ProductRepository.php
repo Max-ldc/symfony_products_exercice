@@ -43,7 +43,8 @@ class ProductRepository extends ServiceEntityRepository
     {
         return $this
             ->createQueryBuilder('p')
-            ->where('p.discount = 1 AND p.visible = 1')
+            ->where('p.discount = 1')
+            ->andWhere('p.visible = 1')
             ->getQuery()
             ->getResult();
     }
