@@ -16,7 +16,13 @@
 							<div class="card-title fs-5">&nbsp|
 								{{ product.category.name }}</div>
 						</div>
-						<div class="card-subtitle my-2 text-body-secondary text-center">{{ product.sellprice }}€</div>
+						<div class="card-subtitle my-2 text-body-secondary d-flex justify-content-center">
+							{% if (product.isDiscount == 1) %}
+								<div class="text-decoration-line-through text-danger">{{ product.ttcprice }}€</div>
+								<div class="">&nbsp|&nbsp</div>
+							{% endif %}
+							<div class="text-success fw-bold">{{ product.sellprice }}€</div>
+						</div>
 					</div>
 				</a>
 			{% else %}
