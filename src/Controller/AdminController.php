@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
-use App\Form\AddProductType;
+use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -45,7 +45,7 @@ class AdminController extends AbstractController
     public function add(Request $request, EntityManagerInterface $em): Response
     {
         $product = new Product;
-        $form = $this->createForm(AddProductType::class, $product);
+        $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -59,6 +59,25 @@ class AdminController extends AbstractController
         }
 
         return $this->renderForm('admin/create.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('admin/products/edit/{id}', name: 'edit_product')]
+    public function edit(Product $product, EntityManagerInterface $em, Request $request): Response
+    {
+        $form = $this->createForm(ProductType::class, $product);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($product);
+            $em->flush();
+
+            $this->addFlash('success', 'ça marche');
+            return $this->redirectToRoute('index_crud_products');
+        }
+
+        return $this->renderForm('admin/edit.html.twig', [
             'form' => $form,
         ]);
     }
