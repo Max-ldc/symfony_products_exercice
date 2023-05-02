@@ -2,37 +2,27 @@
 
 namespace App\Controller;
 
+use App\Contact\ContactRequest;
 use App\Form\ContactType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ContactController extends AbstractController
 {
-    #[Route('/contact', name: 'app_contact')]
+    #[Route('/contact', name: 'app_contact', methods: [Request::METHOD_GET, Request::METHOD_POST])]
     public function contact(
         Request $request,
-        MailerInterface $mailer
+        ContactRequest $contactRequest
     ): Response {
         $form = $this->createForm(ContactType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $contactFormData = $form->getData();
-            $email = new Email();
-
-            $email->from($contactFormData['Email'])
-                ->to('admin@hb-corp.com')
-                ->subject('Demande de contact de ' . $contactFormData['Nom'])
-                ->text($contactFormData['Message']);
-
-            $mailer->send($email);
-
+            $contactRequest->send($form->getData());
+            
             $this->addFlash('success', 'Votre message a bien été envoyé');
-
             return $this->redirectToRoute('app_index');
         }
 
