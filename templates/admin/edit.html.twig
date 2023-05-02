@@ -6,8 +6,12 @@
 {% block body %}
 
 	<div class="container mt-3">
-		<h1>Modification d'un produit</h1>
+		<a href="{{ path('index_crud_products') }}">
+			<button type="button" class="btn btn-info">Retour</button>
+		</a>
+
+		<h1 class="my-3">Modification d'un produit</h1>
 
 		{{ form(form) }}
-    </div>
-{% endblock %}
+		</div>
+	{% endblock %}
