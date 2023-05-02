@@ -27,4 +27,13 @@ class AdminController extends AbstractController
             'product' => $product
         ]);
     }
+
+    #[Route('admin/products/delete/{id}', name: 'delete_product')]
+    public function delete(Product $product, ProductRepository $productRepository): Response
+    {
+        $productRepository->remove($product);
+        $this->addFlash('success', 'Produit supprimé');
+
+            return $this->redirectToRoute('index_crud_products');
+    }
 }
