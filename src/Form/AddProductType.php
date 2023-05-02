@@ -2,11 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
 use App\Entity\Product;
-use App\Repository\CategoryRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,18 +16,24 @@ class AddProductType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
         $builder
             ->add('name', TextType::class, ['label' => 'Nom'])
             ->add('description', TextType::class, ['label' => 'Description'])
-            ->add('basePrice', TextType::class, ['label' => 'Prix HT'])
-            ->add('visible', CheckboxType::class, ['label' => 'Visible'])
-            ->add('discount', CheckboxType::class, ['label' => 'Promotion'])
-            ->add('category', ChoiceType::class, [
+            ->add('basePrice', TextType::class, ['label' => 'Prix HT (en €)'])
+            ->add('visible', CheckboxType::class, [
+                'label' => 'Visible',
+                'required' => false
+            ])
+            ->add('discount', CheckboxType::class, [
+                'label' => 'Promotion',
+                'required' => false
+            ])
+            ->add('category', EntityType::class, [
                 'label' => 'Catégorie',
-                'choices' => $categoryRepository->findAll()])
-            ->add('Creer', SubmitType::class)
-        ;
+                'class' => (Category::class),
+                'choice_label' => 'name'
+            ])
+            ->add('Creer', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
