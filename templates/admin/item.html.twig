@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration
+{% endblock %}
+
+{% block body %}
+
+	<div class="container mt-3">
+
+		<a href="{{ path('index_crud_products') }}">
+			<button type="button" class="btn btn-info">Retour</button>
+		</a>
+
+		<div class="col-lg-3 col-md-4 col-6 mx-2 card text-decoration-none mt-3">
+			<div class="card-body">
+				<div class="d-flex flex-column justify-content-center text-center">
+					<div class="card-title fs-5 text-decoration-underline">{{ product.name }}
+					</div>
+					<div class="card-title fs-5">
+						Catégorie :
+						{{ product.category.name }}</div>
+				</div>
+				<div class="card-subtitle my-2 text-body-secondary d-flex justify-content-center">
+					<div class="">Prix HT :
+					</div>
+					{% if (product.isdiscount == 1) %}
+						<div class="text-danger fw-bold">
+						{% else %}
+							<div class="text-success fw-bold">
+							{% endif %}
+							&nbsp{{ product.baseprice }}€</div>
+					</div>
+					<div class="card-subtitle my-2 text-body-secondary text-center">
+						{{ product.datecreated|date('d/m/Y') }}
+					</div>
+					<div class="card-subtitle my-2 text-body-secondary text-center">
+						Promotion :
+						{% if (product.isdiscount == 1) %}
+							Oui
+							<br>
+							<span class="">Prix TTC :</span>
+							<span class="text-success fw-bold">&nbsp{{ product.ttcprice }}€</span>
+						</div>
+					{% else %}
+						Non
+					</div>
+				{% endif %}
+				<div class="card-subtitle my-2 text-body-secondary text-center">
+					Visible :
+					{% if (product.isvisible == 1) %}
+						Oui
+					{% else %}
+						Non
+					{% endif %}
+				</div>
+
+				<div class="text-center d-flex justify-content-evenly">
+					<a href="{{ path('edit_product', {id:product.id}) }}">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-pencil-fill">
+							<path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+						</svg>
+					</a>
+					<a href="{{ path('delete_product', {id:product.id}) }}">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-trash3-fill">
+							<path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
+						</svg>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

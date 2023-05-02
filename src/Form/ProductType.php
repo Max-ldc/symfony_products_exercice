@@ -7,7 +7,9 @@ use App\Entity\Product;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,8 +20,11 @@ class ProductType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, ['label' => 'Nom'])
-            ->add('description', TextType::class, ['label' => 'Description'])
-            ->add('basePrice', TextType::class, ['label' => 'Prix HT (en €)'])
+            ->add('description', TextareaType::class, ['label' => 'Description'])
+            ->add('basePrice', MoneyType::class, [
+                'label' => 'Prix HT',
+                'currency' => 'EUR'
+                ])
             ->add('visible', CheckboxType::class, [
                 'label' => 'Visible',
                 'required' => false

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\Product;
 use App\Form\ProductType;
@@ -12,9 +12,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AdminController extends AbstractController
+#[Route('/admin/products')]
+class ProductController extends AbstractController
 {
-    #[Route('/admin/products', name: 'index_crud_products')]
+    #[Route('/', name: 'index_crud_products')]
     public function index(ProductRepository $productRepository): Response
     {
         $products = $productRepository->findAll();
@@ -24,7 +25,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('admin/products/read/{id}', name: 'product_admin')]
+    #[Route('/read/{id}', name: 'product_admin')]
     public function item(Product $product): Response
     {
         return $this->render('admin/item.html.twig', [
@@ -32,7 +33,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('admin/products/delete/{id}', name: 'delete_product')]
+    #[Route('/delete/{id}', name: 'delete_product')]
     public function delete(Product $product, ProductRepository $productRepository): Response
     {
         $productRepository->remove($product, true);
@@ -41,7 +42,7 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('index_crud_products');
     }
 
-    #[Route('admin/products/add', name: 'add_product', methods: ['GET', 'POST'])]
+    #[Route('/add', name: 'add_product', methods: ['GET', 'POST'])]
     public function add(Request $request, EntityManagerInterface $em): Response
     {
         $product = new Product;
@@ -63,7 +64,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('admin/products/edit/{id}', name: 'edit_product')]
+    #[Route('/edit/{id}', name: 'edit_product')]
     public function edit(Product $product, EntityManagerInterface $em, Request $request): Response
     {
         $form = $this->createForm(ProductType::class, $product);
